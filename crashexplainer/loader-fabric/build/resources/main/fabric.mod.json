@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "crashexplainer",
+  "version": "1.0.0",
+  "name": "CrashExplainer",
+  "description": "Reads your crash reports and tells you, in plain English, what probably broke and how to fix it.",
+  "authors": ["Yash"],
+  "environment": "*",
+  "entrypoints": {
+    "preLaunch": [
+      "com.yash.crashexplainer.fabric.FabricCrashExplainer"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0"
+  }
+}
