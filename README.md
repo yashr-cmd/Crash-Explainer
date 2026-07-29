@@ -65,5 +65,3 @@ CrashExplainer provides separate builds for **Forge** and **Fabric** and is desi
 - CrashExplainer uses heuristic analysis. Confidence represents how strongly a crash matches a known failure pattern and is **not a guarantee**.
 - Complex modpacks may have multiple interacting causes, so reports should be treated as troubleshooting guidance.
 - If CrashExplainer can't confidently determine the cause, it will say so rather than intentionally guessing.
-
-### [**Help us improve**](https://github.com/yashr-cmd/Crash-Explainer/issues)
