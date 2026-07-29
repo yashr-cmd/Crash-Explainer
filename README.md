@@ -1,1 +1,69 @@
-**A Minecraft Library mod that explains crashes at the end of the mod launcher live log or latest log file**
+# CrashExplainer
+
+**Stop digging through thousands of lines of crash logs just to figure out which mod broke your game.**
+
+CrashExplainer is a lightweight diagnostic mod that automatically analyzes Minecraft crash reports and logs, turning them into clear, human-readable explanations.
+
+It attempts to determine **what went wrong, how confident the diagnosis is, which mod may be responsible, and how you can fix it.**
+
+## What does it do?
+
+CrashExplainer detects common modded Minecraft failures, including:
+
+- Mixin and mod incompatibilities
+- Missing dependencies and API/library mods
+- Missing classes (`NoClassDefFoundError` / `ClassNotFoundException`)
+- Mod and library version mismatches
+- Duplicate mods
+- Out-of-memory crashes
+- Stack overflows / infinite recursion
+- Server watchdog timeouts
+- ModLauncher transformation-service failures
+- Native/JVM crashes such as `SIGSEGV`
+- Other common Forge and Fabric failures
+
+**It then generates a report like this:**
+
+
+```
+??????????????????????????????????????????????????????????????????????????????
+?                           CRASHEXPLAINER REPORT                            ?
+??????????????????????????????????????????????????????????????????????????????
+? Cause: Mixin / Mod Incompatibility (85% confidence, heuristic)             ?
+? Likely mod(s): badmod                                                      ?
+??????????????????????????????????????????????????????????????????????????????
+? What happened: A mod's Mixin (a technique for patching Minecraft's own     ?
+?                code) couldn't find the code it was trying to modify. This  ?
+?                usually means the mod targets a different Minecraft/mod     ?
+?                version, or another mod changed the same code incompatibly. ?
+?                                                                            ?
+? How to fix it: Check that the named mod and its dependencies exactly match ?
+?                your Minecraft and loader versions. If they do, test without?
+?                other mods that patch the same feature to find the          ?
+?                conflicting pair.                                           ?
+??????????????????????????????????????????????????????????????????????????????
+```
+
+
+## Lightweight by design
+
+CrashExplainer does one thing:
+
+**Make Minecraft crashes easier to understand.**
+
+The analyzer is completely rule-based and runs locally. **No AI service is required, and your crash logs are never uploaded to an external server.**
+
+### Forge & Fabric
+
+CrashExplainer provides separate builds for **Forge** and **Fabric** and is designed to work across a broad range of Minecraft versions.
+
+- **Java 17 or newer is required.**
+- No configuration is required — install it and CrashExplainer handles the rest.
+
+## A note about diagnoses
+
+- CrashExplainer uses heuristic analysis. Confidence represents how strongly a crash matches a known failure pattern and is **not a guarantee**.
+- Complex modpacks may have multiple interacting causes, so reports should be treated as troubleshooting guidance.
+- If CrashExplainer can't confidently determine the cause, it will say so rather than intentionally guessing.
+
+### [**Help us improve**](https://github.com/yashr-cmd/Crash-Explainer/issues)
