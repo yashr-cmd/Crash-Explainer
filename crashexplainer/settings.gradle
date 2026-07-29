@@ -1,0 +1,5 @@
+rootProject.name = 'crashexplainer'
+
+include 'core'
+include 'loader-forge'
+include 'loader-fabric'
