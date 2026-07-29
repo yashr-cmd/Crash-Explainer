@@ -1,6 +1,0 @@
-
-task buildAll {
-    group = 'crashexplainer'
-    description = 'Builds core plus every loader shim.'
-    dependsOn subprojects.collect { it.tasks.matching { t -> t.name == 'build' } }
-}
