@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.yash.crashexplainer'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.minecraftforge.net/' }
+    maven { url = 'https://maven.neoforged.net/releases/' }
+}
+
+dependencies {
+    implementation project(':core')
+
+    // ModLauncher's ITransformationService API. Same package (cpw.mods.modlauncher.api)
+    // is used by both Forge and NeoForge, since NeoForge forked from Forge post-1.20.1
+    // and kept ModLauncher - that's why one shim covers both.
+    // 10.0.9 is the version actually in use by current Forge (1.20.1+) and NeoForge alike.
+    //
+    // NOTE: exact method signatures on ITransformationService have shifted slightly
+    // across ModLauncher major versions (8/9/10). If this doesn't compile against your
+    // target Forge/NeoForge version's ModLauncher, check the version below against
+    // what your target actually pulls in and adjust ForgeEarlyService's overrides -
+    // you've already navigated this exact API in transfinity's coremod, so it should
+    // be a quick fix.
+    compileOnly 'cpw.mods:modlauncher:10.0.9'
+}
+
+jar {
+    // Build a self-contained loader JAR. `implementation project(':core')` puts core on
+    // the compile/runtime classpath, but Gradle does NOT copy those classes into this JAR.
+    // CrashExplainer is distributed as one mod JAR, so embed the core output explicitly.
+    dependsOn project(':core').tasks.named('classes')
+    from(project(':core').sourceSets.main.output)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Marks this as a library/coremod-type jar so Forge/NeoForge's mod scanner doesn't
+    // demand a mods.toml + @Mod class for it - we only need the ITransformationService
+    // hook, not a "real" mod entry.
+    manifest {
+        attributes(
+                'FMLModType': 'LIBRARY'
+        )
+    }
+}
